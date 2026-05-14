@@ -43,7 +43,7 @@ ros2 run turtlesim turtle_teleop_key
 
 如何生成多只乌龟（进阶）：
 你可以通过调用服务（Service）在指定位置生成（spawn）新乌龟。例如在 ROS 1 中：
-
+img src="3.25ace" alt="ros2 小乌龟" width="500">
 Bash
 rosservice call /spawn "{x: 5.0, y: 5.0, theta: 0.0, name: 'turtle2'}"
 README.md
