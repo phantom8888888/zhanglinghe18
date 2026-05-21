@@ -36,7 +36,8 @@ ros2 launch kitti_nbv_provider kitti_publisher.launch.py
 Bash
 rviz2 -d src/ros2_kitti_publishers/rviz/default.rviz
 启动 rqt 图像查看器：
-
+<img src="zc_2026-04-09_11-21-25" alt="自动驾驶" width="500">
+<img src="zhangchang 20221926机器狗" alt="机器狗" width="500">
 Bash
 rqt
 # 在 rqt 插件菜单中选择 Visualization -> Image View，并订阅对应的相机话题
