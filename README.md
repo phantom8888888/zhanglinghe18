@@ -14,7 +14,10 @@
 - [Week 7：Markdown 与 GitHub 作业整理](week7/)
 - [Week 8：Docker 安装与 ROS2 桌面容器](week8/)
 - [Week 10：Docker 概念与 OpenCV 实验](week10/)
-- [Week 11：Docker 概念与 OpenCV 实验](week10/)
+- [Week 11：Docker 进阶与 GitHub Pages 网页部署](week11/)
+- [Week 12：手机摄像头、ArUco 识别与距离测量](week12/)
+- [Week 13：四足机器人入门 + 期末项目实施](week13/)
+- [Week 14：手机遥控 + 局域网通信 + 仿真机器人迷宫探索（小组项目）](week14/)
 
 ## 关于我
 
@@ -26,5 +29,5 @@
 
 本项目使用 GitHub Pages 自动部署。
 
-在线访问：[https://phantom8888888.github.io/zhanglinghe18/](https://你的用户名.github.io/仓库名/)
+在线访问：[https://github.com/phantom8888888/zhanglinghe18/edit/main/README.md](https://你的用户名.github.io/仓库名/)
 README.md
