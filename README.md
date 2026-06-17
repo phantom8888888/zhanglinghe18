@@ -29,5 +29,5 @@
 
 本项目使用 GitHub Pages 自动部署。
 
-在线访问：[https://github.com/phantom8888888/zhanglinghe18/edit/main/README.md](https://你的用户名.github.io/仓库名/)
+在线访问：[点击这里访问](https://phantom8888888.github.io/zhanglinghe18/)(https://你的用户名.github.io/仓库名/)
 README.md
