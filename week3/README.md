@@ -82,7 +82,12 @@ Shinhan University | International College | Software Major 🇰🇷 소개 (Int
 Name: ZHANG CHANG
 Key Topics: PyBullet Simulation, Forward/Inverse Kinematics, ROS Middleware, Sensor Data Processing, AI-driven Robot Control.
 
-![ros2 小乌龟](week3/zc0325_10-29-09.png)
-![机器狗](week3/zhangchang 20221926机器狗.png)
+<br>
+
+<img src="week3/zc0325_10-29-09.png" alt="ros2 小乌龟" width="500">
+
+<br>
+
+<img src="week3/zhangchang 20221926机器狗.png" alt="机器狗" width="500">
 
 README.md
