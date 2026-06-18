@@ -1,3 +1,4 @@
+姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
 Week 7：Markdown 与 GitHub 作业整理
 知识点清单
 ┌─────────────────────────────────────────────────────────────┐
