@@ -1,3 +1,4 @@
+姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
 12.1.7 学生视角的课堂操作顺序
 这一节按下面顺序操作，不必一开始就展开服务端代码细节。
 

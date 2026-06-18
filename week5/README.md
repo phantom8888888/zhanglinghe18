@@ -1,4 +1,5 @@
 # zhanglinghe18
+姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
 1. 环境准备 (Workspace Setup)
 首先，你需要有一个 ROS 2 工作空间（看你的路径是 ~/ros2_ws）。
 

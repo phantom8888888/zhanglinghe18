@@ -1,5 +1,5 @@
 课程作业记录与进度汇报
-姓名： 张畅 (张畅) 所属： 信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程： AI人工智能机器人 (AI Robotics)
+姓名： 张畅 (zhangchang) 所属： 信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程： AI人工智能机器人 (AI Robotics)
 
 🇨🇳 本次操作叙述 (Description of Activities)
 本次主要进行了 Docker 容器环境下的 ROS2 仿真运行与键盘控制测试，并成功实现了 TurtleSim 图形交互控制，具体内容如下：
