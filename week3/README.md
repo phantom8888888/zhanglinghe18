@@ -83,7 +83,7 @@ Name: ZHANG CHANG
 Key Topics: PyBullet Simulation, Forward/Inverse Kinematics, ROS Middleware, Sensor Data Processing, AI-driven Robot Control.
 
 <br>
-<img src="week3/zc0325_10-29-09.png" alt="ros2 小乌龟" width="500">
+<img src="zc0325_10-29-09.png" alt="ros2 小乌龟" width="500">
 <br>
-<img src="week3/robot_dog.png" alt="机器狗" width="500">
+<img src="zhangchang 20221926机器狗.png" alt="机器狗" width="500">
 README.md
