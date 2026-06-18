@@ -1,3 +1,4 @@
+姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
 本项目基于 Python + PyBullet 物理引擎，实现了一个四足机器狗（Laikago）的动态仿真系统，并通过 Trot（对角小跑）步态控制，实现机器狗的稳定运动。
 
 该系统主要包括：
