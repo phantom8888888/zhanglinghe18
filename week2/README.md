@@ -1,4 +1,5 @@
 # zhanglinghe18
+姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
 在 Ubuntu 系统中，“小乌龟”通常指的是 ROS (Robot Operating System) 中的经典入门案例——Turtlesim。
 
 要在 Ubuntu 上生成并控制这只小乌龟，请按照以下步骤操作：
