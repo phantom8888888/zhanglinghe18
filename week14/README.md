@@ -1,269 +1,61 @@
 姓名：张畅 (zhangchang) 所属：信韩大学国际大学软件专业 (Shinhan University | International College | Software Major) 🇰🇷 课程：AI人工智能机器人 (AI Robotics)
-12.1.7 学生视角的课堂操作顺序
-这一节按下面顺序操作，不必一开始就展开服务端代码细节。
+第14周：手机遥控+火灾通信+仿真机器人迷宫探索
+本周选择课程项目方向B：使用ROS2turtlesim作为二维机器人仿真对象，通过手机发送控制命令，让小乌龟在迷宫中完成手动遥控和自动探索。项目遵守课程要求的“单一常驻程序”原则：网页只负责发送命令，turtlesim_web_bridge.py同时负责WebSocket通信、ROS2速度发布、迷宫碰撞检测、终点判定和自动探索调度。
 
-第一步：先把网络打通
-在 WSL 中执行：
+项目目标
+手机网页可以控制乌龟前进、后退、左转、右转和停止。
+电脑端桥接程序通过WebSocket接收网页命令，并发布/turtle1/cmd_vel。
+迷宫边界和障碍物具有碰撞检测，乌龟撞墙时不会继续前进。
+接入器explorer.py，在自动模式下使用 A* 路径规划终点。
+网页端显示二维迷宫、乌龟位置、轨迹、当前模式和碰撞状态。
+文件结构
+Week14/
+├── README.md
+├── img14-1.jpg
+├── turtlesim_auto.mp4
+├── week14_turtlesim_single_report_concise_updated.pdf
+└── turtlesim_remote/
+    ├── turtlesim_web_bridge.py
+    ├── explorer.py
+    ├── maze.py
+    ├── index.html
+    └── requirements.txt
+运行方式
+第一个终端启动turtlesim：
 
-sudo service tailscaled start
-tailscale status
-tailscale ip -4
-目标：
+source /opt/ros/humble/setup.bash
+ros2 run turtlesim turtlesim_node
+第二个终端启动网页桥接程序：
 
-确认 Tailscale 已启动
-记下 WSL 的 Tailscale IP
-例如：
+source /opt/ros/humble/setup.bash
+cd Week14/turtlesim_remote
+pip install -r requirements.txt
+python3 turtlesim_web_bridge.py
+浏览器或手机打开：
 
-100.88.77.66
-第二步：完成 SSH 学习测试
-在 WSL 中确保 SSH 服务已经装好并启动：
+http://localhost:8080
+如果使用手机控制，需要手机和电脑进入同一个Tailscale网络，再访问电脑的Tailscale IP地址加端口8080。
 
-sudo apt update
-sudo apt install openssh-server -y
-sudo service ssh start
-ss -tlnp | grep :22
-然后鼓励学生用手机上的 SSH 客户端测试连接：
+自动探索实现
+maze.py生成6x6复杂迷宫，并提供障碍物、边界、起点、终点和格点邻接关系。explorer.py使用A*算法在格点图上规划从当前位置到终点的路径，然后把路径点转换为连续运动控制。turtlesim_web_bridge.py在自动模式下循环调用：
 
-ssh robot@100.88.77.66
-这一小步的目的，是让学生先建立一个非常清楚的感受：
+linear, angular = self.explorer.decide(self.get_state())
+获得速度命令后仍然经过原有的compute_safe_motion()安全检查，因此自动模式和手动共享模式同一套碰撞检测与终点判定逻辑。
 
-Tailscale 确实把手机和 WSL 放进了同一个网络
-手机不仅能当摄像头，也能做远程终端
-第三步：先安装本周需要的 Python 库
-在运行相机桥接程序之前，先安装本周需要的依赖。
+界面与结果
+第14周海龟模拟迷宫项目
 
-如果系统里还没有 pip3，先安装：
+点击查看本周演示视频
 
-sudo apt update
-sudo apt install python3-pip -y
-然后安装本周起始代码依赖：
+项目还包含演示视频turtlesim_auto.mp4和报告week14_turtlesim_single_report_concise_updated.pdf。网页index.html支持手动/自动切换，自动运行时会在迷宫预测中对应行走轨迹，方便展示探索过程。
 
-pip3 install -r week12_starters/requirements.txt
-这一步完成后，再运行桥接程序。
+验证记录
+已完成以下静态检查：
 
-如果直接运行程序时看到下面这类报错：
+python -m py_compile turtlesim_remote/maze.py turtlesim_remote/explorer.py turtlesim_remote/turtlesim_web_bridge.py
+python turtlesim_remote/maze.py
+python turtlesim_remote/explorer.py
+迷宫自检结果显示BFS有效，A*规划器能够生成到达终点的路径。
 
-No module named 'flask'
-通常就说明依赖还没有安装完成。
-
-第四步：运行老师提供的相机接收脚本
-接下来不要求学生先看懂服务端代码，而是先把脚本运行起来。
-
-例如：
-
-python3 week12_starters/camera_bridge.py
-此时学生只需要知道两件事：
-
-这个脚本会在 WSL 中启动一个网页服务
-这个脚本会接收手机浏览器传回来的图像帧
-至于 Flask、SocketIO、HTTPS、自签名证书这些实现细节，可以等链路跑通后再解释。
-
-这一程序在实时实验阶段需要持续运行：
-
-只要手机浏览器还在发送视频帧，WSL 端这个程序就不要关闭
-关闭它之后，手机页面虽然还在，但后端已经没有程序接收图像
-只有在结束本次实时实验，或者已经把需要的图片保存完毕后，才可以停止
-本周课堂统一采用最简单的协调方式：
-
-相机接收、图像显示、ArUco 检测写在同一个 Python 程序里
-不再额外启动第二个 Python 程序去“再读一次摄像头”
-这样可以避免多个程序同时争抢同一条实时视频流
-运行顺序统一为：
-
-先启动 week12_starters/camera_bridge.py
-再让手机浏览器接入
-程序持续接收最新一帧
-在同一个程序内部直接完成显示和识别
-第五步：用手机浏览器访问页面
-在手机浏览器中打开：
-
-https://100.88.77.66:5000
-注意：
-
-这里的地址是 WSL 的 Tailscale IP
-不是校园网地址
-也不是 192.168.x.x
-如果端口不是 5000，就替换成实际端口。
-
-第六步：允许浏览器使用摄像头
-打开页面后，浏览器会请求摄像头权限。
-
-学生此时要做的是：
-
-允许浏览器访问摄像头
-将后置摄像头对准 ArUco 或棋盘格
-保持页面停留在前台
-如果一切正常，此时 WSL 端应该已经能收到图像。
-
-本节课的最小成功流程
-学生先装依赖：
-
-pip3 install -r week12_starters/requirements.txt
-再启动程序：
-
-python3 week12_starters/camera_bridge.py
-手机浏览器打开：
-
-https://<WSL的Tailscale_IP>:5000
-成功标志是同时看到下面三件事：
-
-手机本地画面
-服务端处理结果
-ArUco ID 6 被识别
-12.1.8 推荐调试顺序
-在这一步里，最常见的问题不是算法，而是链路没有打通。建议统一按下面顺序排查：
-
-先查网络 -> 再查服务 -> 再查浏览器权限 -> 最后查代码
-1. 先查网络
-tailscale status
-tailscale ip -4
-ping <手机的Tailscale_IP>
-目标：
-
-看得到手机
-WSL 和手机在同一个 Tailnet 中
-2. 再查服务
-确认老师提供的脚本是否真的启动了网页服务：
-
-ss -tlnp | grep 5000
-3. 再查手机浏览器
-看这三件事：
-
-页面能不能打开
-摄像头权限有没有给
-页面是否保持在前台
-4. 最后再查代码
-只有在网络、端口、权限都正常后，才去怀疑：
-
-帧是否真的发出去了
-Python 是否成功解码
-OpenCV 是否成功显示
-最常见的基础报错之一是：
-
-No module named 'flask'
-这通常不是程序逻辑问题，而是还没有先执行：
-
-pip3 install -r week12_starters/requirements.txt
-最推荐的课堂拆分验证法
-把这一步拆成四个最小成功点：
-
-手机能访问 WSL 页面
-手机浏览器能成功打开摄像头
-WSL 能收到一帧图像
-OpenCV 能成功显示这一帧图像
-12.1.9 OpenCV 测试手机视频流
-这一小节要确认的是：
-
-手机画面能够稳定出现在 WSL 的 OpenCV 窗口里。
-
-这一部分可以分成两层理解：
-
-学生层面
-学生先安装依赖：
-
-pip3 install -r week12_starters/requirements.txt
-然后运行：
-
-python3 week12_starters/camera_bridge.py
-然后在手机浏览器中打开：
-
-https://<WSL的Tailscale_IP>:5000
-看到画面成功进入 WSL，就说明这一段链路已经打通。
-
-进一步理解
-等链路跑通之后，再向学生解释老师提供的接收端脚本在做什么。下面给一个极简的参考实现。思路是：
-
-WSL 中起一个 HTTPS 页面
-手机浏览器打开页面
-页面调用摄像头
-页面把 JPEG 帧通过 WebSocket 发回 Python
-Python 用 OpenCV 解码并显示
-import cv2
-import numpy as np
-from flask import Flask, render_template_string
-from flask_socketio import SocketIO
-
-app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
-
-HTML = """
-<!doctype html>
-<html>
-<body>
-  <h3>HTML5 Camera Bridge</h3>
-  <video id="video" autoplay playsinline style="width: 90vw;"></video>
-  <canvas id="canvas" style="display:none;"></canvas>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-  <script>
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const socket = io();
-
-    async function main() {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: 1280,
-          height: 720,
-          facingMode: "environment"
-        },
-        audio: false
-      });
-      video.srcObject = stream;
-
-      setInterval(() => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0);
-        canvas.toBlob(async (blob) => {
-          const arrayBuffer = await blob.arrayBuffer();
-          socket.emit("video_frame", arrayBuffer);
-        }, "image/jpeg", 0.8);
-      }, 100);
-    }
-
-    main();
-  </script>
-</body>
-</html>
-"""
-
-@app.route("/")
-def index():
-    return render_template_string(HTML)
-
-@socketio.on("video_frame")
-def handle_frame(image_bytes):
-    nparr = np.frombuffer(image_bytes, np.uint8)
-    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    if frame is not None:
-        cv2.imshow("HTML5 Camera Test", frame)
-        cv2.waitKey(1)
-
-if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000, ssl_context="adhoc")
-运行后，手机浏览器访问：
-
-https://<WSL的Tailscale_IP>:5000
-首次访问时如果浏览器提示证书风险，可以指导学生点击“继续访问”，因为这里使用的是临时自签名证书。
-
-12.1.10 手机摄像头实验前的铁律
-做标定和测距之前，必须要求学生在手机浏览器侧尽量固定：
-
-分辨率
-对焦模式
-推荐设置：
-
-分辨率：1280x720 或 1920x1080
-对焦：尽量锁定，不要自动来回跳
-原因：
-
-自动对焦会改变焦距
-
-相机标定默认认为焦距是固定的
-如果手机自动变焦，前面算出的内参矩阵会失效
-动态分辨率会破坏像素坐标系
-
-如果浏览器传回来的分辨率中途变化
-角点位置和标定结果都不再对应
-这一步是后面“测距是否准确”的前提。
+学习总结
+这个项目把前面几周的内容串在一起：第 7 周的网页与仓库整理、第 10 周的 Python/OpenCV 工程习惯、第 12 周的手机与无线通信，以及 ROS2 的关注控制。最大的收获是理解了“控制货运必须集中”的工程原则。自动探索不是另外开一个程序抢控制，而是作为常驻桥程序内部的一个模式运行，这样接状态、重叠、终端和网页显示都保持一致。
